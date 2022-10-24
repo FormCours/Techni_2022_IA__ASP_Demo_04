@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Demo_ASP_MVC_04_Models.DAL.Repositories
+namespace Demo_ASP_MVC_04_Models.DAL.Helpers
 {
-    public static class RepositoryServices
+    public static class RepositoryHelper
     {
         public static void CreateParameterWithValue(this IDbCommand command,string paramName, object? value)
         {

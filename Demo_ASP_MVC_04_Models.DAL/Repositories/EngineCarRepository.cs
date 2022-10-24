@@ -1,4 +1,5 @@
-﻿using Demo_ASP_MVC_04_Models.DAL.Interfaces;
+﻿using Demo_ASP_MVC_04_Models.DAL.Helpers;
+using Demo_ASP_MVC_04_Models.DAL.Interfaces;
 using Demo_ASP_MVC_04_Models.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -95,7 +96,6 @@ namespace Demo_ASP_MVC_04_Models.DAL.Repositories
                                   "VALUES (@Name, @PowerType)";
 
             command.CreateParameterWithValue("Name", entity.Name);
-
             command.CreateParameterWithValue("PowerType", entity.PowerType);
 
             _connection.Open();
@@ -119,9 +119,7 @@ namespace Demo_ASP_MVC_04_Models.DAL.Repositories
                                   "WHERE [Engine_Car_Id] = @Id";
 
             command.CreateParameterWithValue("Name", entity.Name);
-
             command.CreateParameterWithValue("PowerType", entity.PowerType);
-
             command.CreateParameterWithValue("Id", id);
 
 

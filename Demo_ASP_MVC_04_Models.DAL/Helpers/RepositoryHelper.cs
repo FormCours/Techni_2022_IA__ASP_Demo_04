@@ -13,7 +13,10 @@ namespace Demo_ASP_MVC_04_Models.DAL.Helpers
         {
             IDbDataParameter paramId = command.CreateParameter();
             paramId.ParameterName = paramName;
-            paramId.Value = value;
+
+            // paramId.Value = value is null ? DBNull.Value : value;
+            paramId.Value = value ?? DBNull.Value;
+
             command.Parameters.Add(paramId);
         }
     }

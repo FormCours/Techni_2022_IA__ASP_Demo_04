@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Demo_ASP_MVC_04_Models.BLL.Interfaces;
-public interface IServiceBase<TKey, TEntity>
+public interface IServiceCRUD<TKey, TEntity>
 {
     // Tout les services ne sont pas obligatoirement des CRUD ;)
 

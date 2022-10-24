@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Demo_ASP_MVC_04_Models.BLL.Interfaces
 {
-    public interface IBrandService : IServiceBase<int, Brand>
+    public interface IBrandService : IServiceCRUD<int, Brand>
     {
         
     }

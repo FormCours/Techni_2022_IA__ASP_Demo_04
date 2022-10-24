@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Demo_ASP_MVC_04_Models.BLL.Interfaces
 {
-    public interface IEngineCarService : IServiceBase<int, EngineCar>
+    public interface IEngineCarService : IServiceCRUD<int, EngineCar>
     {
     }
 }

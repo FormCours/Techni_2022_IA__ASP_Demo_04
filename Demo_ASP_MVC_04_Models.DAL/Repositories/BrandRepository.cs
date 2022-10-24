@@ -62,5 +62,27 @@ namespace Demo_ASP_MVC_04_Models.DAL.Repositories
 
             return rowAffected == 1;
         }
+
+        public Brand? GetByName(string name)
+        {
+            IDbCommand command = _connection.CreateCommand();
+            command.CommandType = CommandType.Text;
+            command.CommandText = $"SELECT * FROM [{TableName}] WHERE [Name] = @Name";
+            command.CreateParameterWithValue("Name", name);
+
+            Brand? brand = null;
+
+            _connection.Open();
+            using (IDataReader reader = command.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    brand = Mapper(reader);
+                }
+            }
+            _connection.Close();
+
+            return brand;
+        }
     }
 }

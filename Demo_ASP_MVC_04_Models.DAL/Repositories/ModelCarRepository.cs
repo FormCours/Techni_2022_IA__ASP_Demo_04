@@ -98,7 +98,7 @@ namespace Demo_ASP_MVC_04_Models.DAL.Repositories
             return modelCar;
         }
 
-        public bool AddEngine(int modelCarId, EngineCar engine)
+        public bool AddEngine(int modelCarId, int engineCarId)
         {
             IDbCommand command = _connection.CreateCommand();
             command.CommandType = CommandType.Text;
@@ -106,7 +106,7 @@ namespace Demo_ASP_MVC_04_Models.DAL.Repositories
                                     " VALUES (@Model_Car_Id, @Engine_Car_Id)";
 
             command.CreateParameterWithValue("Model_Car_Id", modelCarId);
-            command.CreateParameterWithValue("Engine_Car_Id", engine.EngineCarId);
+            command.CreateParameterWithValue("Engine_Car_Id", engineCarId);
 
             _connection.Open();
             int nbRow = command.ExecuteNonQuery();
@@ -115,7 +115,7 @@ namespace Demo_ASP_MVC_04_Models.DAL.Repositories
             return nbRow == 1;
         }
 
-        public bool RemoveEngine(int modelCarId, EngineCar engine)
+        public bool RemoveEngine(int modelCarId, int engineCarId)
         {
             IDbCommand command = _connection.CreateCommand();
             command.CommandType = CommandType.Text;
@@ -124,7 +124,7 @@ namespace Demo_ASP_MVC_04_Models.DAL.Repositories
                                     " AND [Engine_Car_Id] = @Engine_Car_Id";
 
             command.CreateParameterWithValue("Model_Car_Id", modelCarId);
-            command.CreateParameterWithValue("Engine_Car_Id", engine.EngineCarId);
+            command.CreateParameterWithValue("Engine_Car_Id", engineCarId);
 
             _connection.Open();
             int nbRow = command.ExecuteNonQuery();

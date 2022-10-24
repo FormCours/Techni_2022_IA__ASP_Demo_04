@@ -10,7 +10,7 @@ namespace Demo_ASP_MVC_04_Models.DAL.Interfaces
     public interface IModelCarRepository : IRepositoryBase<int, ModelCar>
     {
         ModelCar GetWithEngines(int modelCarId);
-        bool AddEngine(int modelCarId, EngineCar engine);
-        bool RemoveEngine(int modelCarId, EngineCar engine);
+        bool AddEngine(int modelCarId, int engineCarId);
+        bool RemoveEngine(int modelCarId, int engineCarId);
     }
 }

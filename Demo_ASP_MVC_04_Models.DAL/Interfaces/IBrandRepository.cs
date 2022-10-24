@@ -6,5 +6,6 @@ namespace Demo_ASP_MVC_04_Models.DAL.Interfaces
         : IRepositoryBase<int, Brand>
     {
         // Custom method
+        Brand? GetByName(string name);
     }
 }

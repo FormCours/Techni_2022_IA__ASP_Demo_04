@@ -1,76 +1,71 @@
 ﻿using Demo_ASP_MVC_04_Models.DAL.Interfaces;
 using Demo_ASP_MVC_04_Models.Domain.Entities;
+using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Demo_ASP_MVC_04_Models.DAL.Repositories
 {
-    public class BrandRepository : IBrandRepository
+    public class EngineCarRepository : IEngineCarRepository
     {
         private readonly IDbConnection _connection;
 
-        public BrandRepository(IDbConnection connection)
+        public EngineCarRepository(IDbConnection connection)
         {
             _connection = connection;
         }
 
-        private Brand Mapper(IDataRecord record)
+        private EngineCar Mapper(IDataRecord record)
         {
-            return new Brand()
+            return new EngineCar
             {
-                // BrandId = record.GetInt32(record.GetOrdinal("Brand_Id")),
-                BrandId = (int)record["Brand_Id"],
+                EngineCarId = (int)record["Engine_Car_Id"],
                 Name = (string)record["Name"],
-                Country = (record["Country"] is DBNull) ? null : (string)record["Country"]
+                PowerType = (string)record["Power_Type"]
             };
         }
 
-        public Brand? GetById(int id)
+        public EngineCar? GetById(int id)
         {
-            // Créer la commande SQL
-            IDbCommand command = _connection.CreateCommand();
+            IDbCommand cmd = _connection.CreateCommand();
 
-            // - Type de la commande
-            command.CommandType = CommandType.Text;
+            cmd.CommandType = CommandType.Text;
 
-            // - Contenu de la commande
-            command.CommandText = "SELECT * FROM [Brand] WHERE [Brand_Id] = @Id";
+            cmd.CommandText = "SELECT * FROM [Engine_Car] WHERE [Engine_Car_Id] = @Id";
 
-            // - Ajout des parametres SQL
-            command.CreateParameterWithValue("id", id);
+            cmd.CreateParameterWithValue("id", id);
 
-
-            // Ouverture de la connexion
             _connection.Open();
 
-            // Execution de la commande SQL
-            Brand? brand = null;
+            EngineCar? engineCar = null;
 
-            using (IDataReader reader = command.ExecuteReader())
+            using (IDataReader reader = cmd.ExecuteReader())
             {
+
                 if (reader.Read())
                 {
-                    // Utilisation du mapper entre la DB et la DAL
-                    brand = Mapper(reader);
+                    engineCar = Mapper(reader);
                 }
+
             }
 
-            // Fermeture de la connexion
             _connection.Close();
 
-            // Envoi des données
-            return brand;
+            return engineCar;
         }
-
-        public IEnumerable<Brand> GetAll()
+        
+        public IEnumerable<EngineCar> GetAll()
         {
-            // Créer la commande SQL
             IDbCommand command = _connection.CreateCommand();
 
             // - Type de la commande
             command.CommandType = CommandType.Text;
 
             // - Contenu de la commande
-            command.CommandText = "SELECT * FROM [Brand]";
+            command.CommandText = "SELECT * FROM [Engine_Car]";
 
             // Ouverture de la connexion
             _connection.Open();
@@ -89,52 +84,43 @@ namespace Demo_ASP_MVC_04_Models.DAL.Repositories
             _connection.Close();
         }
 
-        public int Add(Brand entity)
+        public int Add(EngineCar entity)
         {
             IDbCommand command = _connection.CreateCommand();
 
             command.CommandType = CommandType.Text;
 
-            command.CommandText = "INSERT INTO [Brand] ([Name], [Country])" +
-                                  "OUTPUT [inserted].[Brand_Id]" +
-                                  "VALUES (@Name, @Country)";
+            command.CommandText = "INSERT INTO [Engine_Car] ([Name], [Power_Type])" +
+                                  "OUTPUT [inserted].[Engine_Car_Id]" +
+                                  "VALUES (@Name, @PowerType)";
 
             command.CreateParameterWithValue("Name", entity.Name);
 
-            command.CreateParameterWithValue("Country", entity.Country);
+            command.CreateParameterWithValue("PowerType", entity.PowerType);
 
-            int id = 0;
-            
             _connection.Open();
 
-            try
-            {
-                id = (int)command.ExecuteScalar();
-            }
-            catch (Exception)
-            {
-                
-            }
+            int id = (int)command.ExecuteScalar();
 
             _connection.Close();
 
             return id;
         }
 
-        public bool Update(int id, Brand entity)
+        public bool Update(int id, EngineCar entity)
         {
             IDbCommand command = _connection.CreateCommand();
 
             command.CommandType = CommandType.Text;
 
-            command.CommandText = "UPDATE [Brand]" +
+            command.CommandText = "UPDATE [Engine_Car]" +
                                   "SET [Name] = @Name" +
-                                  ", [Country] = @Country " +
-                                  "WHERE [Brand_Id] = @Id";
+                                  ", [Power_Type] = @PowerType " +
+                                  "WHERE [Engine_Car_Id] = @Id";
 
             command.CreateParameterWithValue("Name", entity.Name);
 
-            command.CreateParameterWithValue("Country", entity.Country);
+            command.CreateParameterWithValue("PowerType", entity.PowerType);
 
             command.CreateParameterWithValue("Id", id);
 
@@ -145,7 +131,7 @@ namespace Demo_ASP_MVC_04_Models.DAL.Repositories
 
             _connection.Close();
 
-            return rowAffected == 1; 
+            return rowAffected == 1;
         }
 
         public bool Delete(int id)
@@ -154,7 +140,7 @@ namespace Demo_ASP_MVC_04_Models.DAL.Repositories
 
             command.CommandType = CommandType.Text;
 
-            command.CommandText = "DELETE FROM [Brand] WHERE [Brand_Id] = @Id";
+            command.CommandText = "DELETE FROM [Engine_Car] WHERE [Engine_Car_Id] = @Id";
 
             command.CreateParameterWithValue("Id", id);
 
@@ -166,5 +152,7 @@ namespace Demo_ASP_MVC_04_Models.DAL.Repositories
 
             return rowAffected == 1;
         }
+
+        
     }
 }

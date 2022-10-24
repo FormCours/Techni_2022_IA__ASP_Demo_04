@@ -12,7 +12,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddTransient<IDbConnection>(service =>
 {
-    return new SqlConnection("Server = localhost\\SQLEXPRESS; Database = Demo_ASP_MVC_04_Models.Database; Trusted_Connection = True;");
+    return new SqlConnection(builder.Configuration.GetConnectionString("Default"));
 });
 
 builder.Services.AddTransient<IEngineCarRepository, EngineCarRepository>();

@@ -34,13 +34,11 @@ namespace Demo_ASP_MVC_04_Models.DAL.Repositories
             IDbCommand cmd = _connection.CreateCommand();
 
             cmd.CommandType = CommandType.Text;
-
             cmd.CommandText = "SELECT * FROM [Engine_Car] WHERE [Engine_Car_Id] = @Id";
 
             cmd.CreateParameterWithValue("id", id);
 
             _connection.Open();
-
             EngineCar? engineCar = null;
 
             using (IDataReader reader = cmd.ExecuteReader())
@@ -50,9 +48,7 @@ namespace Demo_ASP_MVC_04_Models.DAL.Repositories
                 {
                     engineCar = Mapper(reader);
                 }
-
             }
-
             _connection.Close();
 
             return engineCar;
@@ -90,7 +86,6 @@ namespace Demo_ASP_MVC_04_Models.DAL.Repositories
             IDbCommand command = _connection.CreateCommand();
 
             command.CommandType = CommandType.Text;
-
             command.CommandText = "INSERT INTO [Engine_Car] ([Name], [Power_Type])" +
                                   "OUTPUT [inserted].[Engine_Car_Id]" +
                                   "VALUES (@Name, @PowerType)";
@@ -99,9 +94,7 @@ namespace Demo_ASP_MVC_04_Models.DAL.Repositories
             command.CreateParameterWithValue("PowerType", entity.PowerType);
 
             _connection.Open();
-
             int id = (int)command.ExecuteScalar();
-
             _connection.Close();
 
             return id;
@@ -112,7 +105,6 @@ namespace Demo_ASP_MVC_04_Models.DAL.Repositories
             IDbCommand command = _connection.CreateCommand();
 
             command.CommandType = CommandType.Text;
-
             command.CommandText = "UPDATE [Engine_Car]" +
                                   "SET [Name] = @Name" +
                                   ", [Power_Type] = @PowerType " +
@@ -124,9 +116,7 @@ namespace Demo_ASP_MVC_04_Models.DAL.Repositories
 
 
             _connection.Open();
-
             int rowAffected = command.ExecuteNonQuery();
-
             _connection.Close();
 
             return rowAffected == 1;
@@ -137,20 +127,15 @@ namespace Demo_ASP_MVC_04_Models.DAL.Repositories
             IDbCommand command = _connection.CreateCommand();
 
             command.CommandType = CommandType.Text;
-
             command.CommandText = "DELETE FROM [Engine_Car] WHERE [Engine_Car_Id] = @Id";
 
             command.CreateParameterWithValue("Id", id);
 
             _connection.Open();
-
             int rowAffected = command.ExecuteNonQuery();
-
             _connection.Close();
 
             return rowAffected == 1;
         }
-
-        
     }
 }

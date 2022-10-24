@@ -95,28 +95,15 @@ namespace Demo_ASP_MVC_04_Models.DAL.Repositories
             IDbCommand command = _connection.CreateCommand();
 
             command.CommandType = CommandType.Text;
-
             command.CommandText = "INSERT INTO [Brand] ([Name], [Country])" +
                                   "OUTPUT [inserted].[Brand_Id]" +
                                   "VALUES (@Name, @Country)";
 
             command.CreateParameterWithValue("Name", entity.Name);
-
             command.CreateParameterWithValue("Country", entity.Country);
 
-            int id = 0;
-            
             _connection.Open();
-
-            try
-            {
-                id = (int)command.ExecuteScalar();
-            }
-            catch (Exception)
-            {
-                
-            }
-
+            int id = (int)command.ExecuteScalar();
             _connection.Close();
 
             return id;
@@ -127,26 +114,21 @@ namespace Demo_ASP_MVC_04_Models.DAL.Repositories
             IDbCommand command = _connection.CreateCommand();
 
             command.CommandType = CommandType.Text;
-
             command.CommandText = "UPDATE [Brand]" +
                                   "SET [Name] = @Name" +
                                   ", [Country] = @Country " +
                                   "WHERE [Brand_Id] = @Id";
 
             command.CreateParameterWithValue("Name", entity.Name);
-
             command.CreateParameterWithValue("Country", entity.Country);
-
             command.CreateParameterWithValue("Id", id);
 
 
             _connection.Open();
-
             int rowAffected = command.ExecuteNonQuery();
-
             _connection.Close();
 
-            return rowAffected == 1; 
+            return rowAffected == 1;
         }
 
         public bool Delete(int id)
@@ -154,15 +136,12 @@ namespace Demo_ASP_MVC_04_Models.DAL.Repositories
             IDbCommand command = _connection.CreateCommand();
 
             command.CommandType = CommandType.Text;
-
             command.CommandText = "DELETE FROM [Brand] WHERE [Brand_Id] = @Id";
 
             command.CreateParameterWithValue("Id", id);
 
             _connection.Open();
-
             int rowAffected = command.ExecuteNonQuery();
-
             _connection.Close();
 
             return rowAffected == 1;
